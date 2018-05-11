@@ -2,8 +2,8 @@ import configparser
 
 config = configparser.ConfigParser()
 
-print("First we need to configure your Trello Auth. Get your key and token
-        access at developer.trello.com")
+print("First we need to configure your Trello Auth. Get your key and token "\
+        "access at developer.trello.com")
 
 config['AUTH'] = {'Key': input("User KEY: "),
         'Token': input("User TOKEN: ")}
