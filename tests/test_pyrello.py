@@ -20,5 +20,28 @@ class Test(unittest.TestCase):
         csv_line = pyrello.get_labels_collumn([{'name':'foo'}])
         self.assertEqual(csv_line, "foo")
 
+    def test_get_action_value_update_card(self):
+        """
+        Test id and date of a status transaction 
+        """
+        action = {
+                'id': '5af4b2536330f85803a3a229', 
+                'data': {
+                    'listAfter': {
+                        'name':'Backlog', 
+                        'id': '57683d923017347909f9b904'
+                    }
+                }, 
+                'type': 'updateCard', 
+                'date': '2018-05-10T20:57:55.692Z' 
+                }
+        action_dict = pyrello.get_action_value(action)
+        print (action_dict) 
+        self.assertNotEqual(action_dict, None)
+        self.assertEqual(action_dict['id_list'],
+                action["data"]["listAfter"]["id"])
+        self.assertEqual(action_dict['date'], action["date"][:10])
+
+
 if __name__ == '__main__':
     unittest.main()

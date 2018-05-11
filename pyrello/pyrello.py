@@ -36,6 +36,21 @@ def get_labels_collumn(labels_list):
 def response_error(response):
     exit(response.text)
 
+def get_action_value(action):
+    if action['type']=="updateCard" and 'listAfter' in action['data']:
+        list_key = "listAfter"
+    elif action['type'] in ("createCard","copyCard"):
+        list_key = "list"
+    else:
+        return None
+
+    action_dict={
+            'id_list': action['data'][list_key]['id'],
+            'date': action['date'][:10]
+    }
+    return action_dict
+
+ 
 def main():
     if len(sys.argv)>1 and sys.argv[1]=="--configure":
         from . import configure
@@ -80,16 +95,10 @@ def main():
             }
 
             for action in card['actions']:
-                if action['type']=="updateCard" and 'listAfter' in action['data']:
-                    id_list = action['data']['listAfter']['id']
-                    date = action['date'][:10]
-                    card_dict[id_list] = date
-             
-                if action['type'] in ("createCard","copyCard"):
-                    id_list = action['data']['list']['id']
-                    date = action['date'][:10]
-                    card_dict[id_list] = date
-         
+                action_value = get_action_value(action)
+                if action_value != None:
+                    card_dict[action_value['id_list']] = action_value['date']
+        
             write_csv_cards(card_dict, lists, board_id)
         print("%s.csv created" % board_id)
 
