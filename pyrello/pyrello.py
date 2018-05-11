@@ -2,6 +2,7 @@ import requests
 import json
 import configparser
 import sys
+from . import configure
 
 def write_csv_header(lists, board_id):
     first_line = "id, name,labels,"
@@ -9,8 +10,8 @@ def write_csv_header(lists, board_id):
     for card_list in lists:
         first_line+='"%s",' % card_list['name']
 
-    with open("%s.csv" % board_id, 'w') as configfile:
-        configfile.write("%s\n" % first_line)
+    with open("%s.csv" % board_id, 'w') as csv_file:
+        csv_file.write("%s\n" % first_line)
  
 def write_csv_cards(card_dict, lists, board_id):
     line = '"%s", "%s", "%s",' % (
@@ -23,8 +24,8 @@ def write_csv_cards(card_dict, lists, board_id):
             line += '"%s",' % card_dict[card_list["id"]]
         else:
             line += ','
-    with open("%s.csv" % board_id, 'a') as configfile:
-        configfile.write("%s\n" % line)
+    with open("%s.csv" % board_id, 'a') as csv_file:
+        csv_file.write("%s\n" % line)
 
 
 def get_labels_collumn(labels_list):
@@ -53,7 +54,8 @@ def get_action_value(action):
  
 def main():
     if len(sys.argv)>1 and sys.argv[1]=="--configure":
-        from . import configure
+        configure.create_config_file()
+
 
     config = configparser.ConfigParser()
     config.read('config')

@@ -36,7 +36,6 @@ class Test(unittest.TestCase):
                 'date': '2018-05-10T20:57:55.692Z' 
                 }
         action_dict = pyrello.get_action_value(action)
-        print (action_dict) 
         self.assertNotEqual(action_dict, None)
         self.assertEqual(action_dict['id_list'],
                 action["data"]["listAfter"]["id"])
