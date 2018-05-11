@@ -1,1 +1,10 @@
 config
+*.csv
+*.json
+__pycache__
+build
+dist
+pipupload
+pyrello.egg-info/
+setup.py
+*.swp
