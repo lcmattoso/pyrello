@@ -16,16 +16,18 @@ def create_config_file():
 
         board_name = input("Board Name: ")
         board_id = input("Board ID: ")
-        start_collumn = input("What's the name of the collumn that represents "\
-                "the begning of your LeadTime? ")
-        end_collumn = input("What's the name of the collumn that represents "\
-                "the end of your LeadTime? ")
+        start_columns = input("What are the column names that represent the"\
+                " beginning of your lead time? (use comma to separate multiple"\
+                " columns)\n")
+        end_columns = input("What are the column names that represent the"\
+                " end of your lead time? (use comma to separate multiple"\
+                " columns)\n")
 
         more = input("Do you want to export another board? (Y/N): ").upper()
         config[board_name.upper()] = {
                 'id' : board_id,
-                'start_collumn' : start_collumn,
-                'end_collumn' : end_collumn
+                'start_columns' : start_columns,
+                'end_columns' : end_columns
         }
 
     with open('config', 'w') as configfile:
