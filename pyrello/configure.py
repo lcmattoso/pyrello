@@ -8,17 +8,27 @@ def create_config_file():
     config['AUTH'] = {'Key': input("User KEY: "),
             'Token': input("User TOKEN: ")}
 
-    print("Now, export your board using the Json option and get your board ID")
+    print("Export your board using the Json option and get your board ID")
 
     more="Y"
-    board_list = []
 
     while more=="Y":
-        board_id = input("Board ID: ")
-        more = input("Do you want to export another board? (Y/N): ").upper()
-        board_list.append(board_id)
 
-    config['BOARDS'] = {"BoardList": board_list}
+        board_name = input("Board Name: ")
+        board_id = input("Board ID: ")
+        start_columns = input("What are the column names that represent the"\
+                " beginning of your lead time? (use comma to separate multiple"\
+                " columns)\n")
+        end_columns = input("What are the column names that represent the"\
+                " end of your lead time? (use comma to separate multiple"\
+                " columns)\n")
+
+        more = input("Do you want to export another board? (Y/N): ").upper()
+        config[board_name.upper()] = {
+                'id' : board_id,
+                'start_columns' : start_columns,
+                'end_columns' : end_columns
+        }
 
     with open('config', 'w') as configfile:
         config.write(configfile)
