@@ -4,7 +4,7 @@ import sys
 import requests
 from . import configure
 
-
+local_list_names = {}
 def write_csv_header(lists, board_name):
     first_line = "id, name,labels,start,end,"
 
@@ -34,14 +34,18 @@ def write_csv_cards(card_dict, lists, board_name):
 
 
 def get_list_name(list_id):
-    url = "https://api.trello.com/1/lists/%s" % list_id
-    list_response = requests.request("GET", url)
-    if list_response.status_code != 200:
-        list_name = ""
-    else:
-        list_json = json.loads(list_response.text)
-        list_name = list_json['name']
+    try:
+        list_name = local_list_names[list_id]
+    except:
+        url = "https://api.trello.com/1/lists/%s" % list_id
+        list_response = requests.request("GET", url)
+        if list_response.status_code != 200:
+            list_name = ""
+        else:
+            list_json = json.loads(list_response.text)
+            list_name = list_json['name']
 
+        local_list_names[list_id]=list_name
     return list_name
 
 
